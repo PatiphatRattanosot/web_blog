@@ -26,10 +26,10 @@ const router = createBrowserRouter([
                 path: '/post/:id',
                 element: <PostDetail></PostDetail>
             }, {
-                path: '/sign-up',
+                path: '/sign-in',
                 element: <Login></Login>
             }, {
-                path: 'sign-in',
+                path: '/sign-up',
                 element: <Register></Register>
             }
         ]

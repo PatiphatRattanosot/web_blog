@@ -4,8 +4,15 @@ import './index.css'
 import { RouterProvider } from 'react-router-dom'
 import router from './router/router'
 
+import { CookiesProvider } from "react-cookie";
+import { AuthProvider } from "./context/AuthContext";
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router}/>
+    <CookiesProvider>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </CookiesProvider>
   </StrictMode>,
 )

@@ -4,11 +4,11 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 function Layout() {
     return (
-        <div className='min-h-screen flex flex-col bg-gradient from-blue to-purple-600'>
+        <div className='flex flex-col min-h-screen'>
             <header className=''>
                 <Navbar></Navbar>
             </header>
-            <main className='flex-grow flex item-center justify-center container mac-h-screen mx-auto sm:p-6 lg:p-8'>
+            <main className='flex-grow'>
                 <Outlet></Outlet>
             </main>
             <footer>

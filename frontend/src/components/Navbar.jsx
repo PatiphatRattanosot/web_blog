@@ -26,8 +26,8 @@ function Navbar() {
                     </div>
                 </div></>)
                     : (<div className='flex space-x-4'>
-                        <button className="btn btn-outline btn-primary">Login</button>
-                        <button className="btn btn-outline btn-accent">Register</button>
+                        <a href="/sign-in" className="btn btn-outline btn-primary">Login</a>
+                        <a href="/sign-up" className="btn btn-outline btn-accent">Register</a>
                     </div>)}
             </div>
 

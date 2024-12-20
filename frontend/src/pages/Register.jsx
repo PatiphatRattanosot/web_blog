@@ -41,7 +41,7 @@ function Register() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200">
       <div className="card w-full max-w-md bg-white shadow-lg rounded-lg p-8">
-        <h2 className="text-center text-3xl font-bold mb-6">Sign up</h2>
+        <h2 className="text-center text-3xl font-bold mb-6">Sign Up</h2>
 
         <label>
           <div className="form-control mb-4">

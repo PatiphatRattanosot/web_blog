@@ -1,12 +1,14 @@
 const express = require("express");
-const { createPost, getAllPosts, getPostById, updatePost, deletePost } = require("../controllers/post.cotroller");
+const PostController = require("../controllers/post.controller");
+const { upload } = require("../middlewares/file.middleware");
+const authJwt = require("../middlewares/authJwt.middleware");
 
 const router = express.Router();
 
-router.post("/", createPost);
-router.get("/", getAllPosts);
-router.get("/:id", getPostById);
-router.put("/:id", updatePost);
-router.delete("/:id", deletePost);
+router.post("/", [authJwt.verifyToken, upload], PostController.createPost);
+router.get("/", PostController.getAllPosts);
+router.get("/:id", PostController.getPostById);
+router.put("/:id", PostController.updatePost);
+router.delete("/:id", PostController.deletePost);
 
 module.exports = router;

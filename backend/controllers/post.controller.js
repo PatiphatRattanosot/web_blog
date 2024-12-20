@@ -25,7 +25,7 @@ exports.createPost = async (req, res) => {
 
 exports.getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find().populate("author", "username");
+    const posts = await Post.find().populate("author", "username").sort({"createdAt":-1}).limit(20);
     res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ message: error.message });

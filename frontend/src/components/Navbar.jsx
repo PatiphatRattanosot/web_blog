@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import { useAuthContext } from '../context/AuthContext'
 
 function Navbar() {
-    const [user, setUser] = useState(null)
+    const { user, logout } = useAuthContext()
     return (
         <div className="navbar bg-base-100">
             <div className="flex-1">
@@ -21,7 +22,7 @@ function Navbar() {
                             tabIndex={0}
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                             <li><a>Profile</a></li>
-                            <li><a>Logout</a></li>
+                            <li onClick={() => { logout() }}><a>Logout</a></li>
                         </ul>
                     </div>
                 </div></>)

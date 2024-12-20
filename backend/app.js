@@ -15,6 +15,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+//Public
+app.use("/uploads",express.static(__dirname+"/uploads"))
 
 app.use("/api/posts", postRoutes);
 app.use("/api/users", userRoutes);

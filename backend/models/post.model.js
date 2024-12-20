@@ -7,6 +7,8 @@ const PostSchema = new Schema({
     content: { type: String, required: true },
     cover: { type: String, required: true },
     author: { type: Schema.Types.ObjectId, ref: "User" },
+},{
+    timestamps:true
 });
 
 const Post = model("Post", PostSchema);

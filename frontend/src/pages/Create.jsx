@@ -11,8 +11,8 @@ const Create = () => {
     content: "",
     file: null,
   });
-  const [content, setContent] = useState("")
-  const editorRef = useRef()
+  const [content, setContent] = useState("");
+  const editorRef = useRef();
 
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -25,10 +25,9 @@ const Create = () => {
   };
 
   const handleContentChange = (value) => {
-    setContent(value)
-    setPostDetail({ ...postDetail, content: content })
-
-  }
+    setContent(value);
+    setPostDetail({ ...postDetail, content: content });
+  };
 
   const handleSubmit = async () => {
     try {
@@ -63,52 +62,49 @@ const Create = () => {
     }
   };
   return (
-    <div class="bg-white p-8 rounded-lg max-w-4xl w-full shadow-lg">
-      <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">
+    <div className="bg-white p-8 rounded-lg max-w-4xl w-full shadow-lg">
+      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
         Create New Post
       </h2>
       <label>
-        <div class="mb-4">
+        <div className="mb-4">
           <input
             type="text"
             placeholder="Title"
             value={postDetail.title}
             onChange={handleChange}
             name="title"
-            class="input input-bordered input-info w-full"
+            className="input input-bordered input-info w-full"
           />
         </div>
-        <div class="mb-4">
+        <div className="mb-4">
           <input
             type="text"
             placeholder="Summary"
             value={postDetail.summary}
             onChange={handleChange}
             name="summary"
-            class="input input-bordered input-info w-full"
+            className="input input-bordered input-info w-full"
           />
         </div>
 
-        <div class="mb-4">
-          <textarea
-            placeholder="Content"
-            value={postDetail.content}
-            onChange={handleChange}
-            name="content"
-            class="textarea textarea-bordered textarea-info w-full"
-          ></textarea>
+        <div className="h-64">
+          <Editor
+            value={content}
+            onChange={handleContentChange}
+            ref={editorRef}
+          ></Editor>
         </div>
-        <Editor
-          value={content} onChange={handleContentChange} ref={editorRef}></Editor>
-        <div class="mb-4">
+
+        <div className="mb-4">
           <input
             type="file"
             name="file"
             onChange={handleChange}
-            class="file-input file-input-bordered file-input-accent w-full"
+            className="file-input file-input-bordered file-input-accent w-full"
           />
         </div>
-        <button class="btn btn-primary w-full" onClick={handleSubmit}>
+        <button className="btn btn-primary w-full" onClick={handleSubmit}>
           Submit
         </button>
       </label>

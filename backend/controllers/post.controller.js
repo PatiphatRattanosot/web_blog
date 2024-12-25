@@ -17,6 +17,9 @@ exports.createPost = async (req, res) => {
       cover: path,
       author,
     });
+    if (!newPost) {
+      res.status(404).json({ message: "cannot create post" });
+    }
     res.status(201).json(newPost);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -25,7 +28,10 @@ exports.createPost = async (req, res) => {
 
 exports.getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find().populate("author", "username").sort({"createdAt":-1}).limit(20);
+    const posts = await Post.find()
+      .populate("author", "username")
+      .sort({ createdAt: -1 })
+      .limit(20);
     res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -59,6 +65,8 @@ exports.updatePost = async (req, res) => {
 };
 
 exports.deletePost = async (req, res) => {
+  const { id } = req.params;
+  const authorId = req.userId;
   try {
     const deletedPost = await Post.findByIdAndDelete(req.params.id);
     if (!deletedPost)

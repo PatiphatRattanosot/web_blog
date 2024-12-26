@@ -18,7 +18,7 @@ const Create = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "file") {
-      setPostDetail({ ...postDetail, [name]: e.target.file[0] });
+      setPostDetail({ ...postDetail, [name]: e.target.files[0] });
     } else {
       setPostDetail({ ...postDetail, [name]: value });
     }
@@ -26,7 +26,7 @@ const Create = () => {
 
   const handleContentChange = (value) => {
     setContent(value);
-    setPostDetail({ ...postDetail, content: content });
+    setPostDetail({ ...postDetail, content: value });
   };
 
   const handleSubmit = async () => {
@@ -38,9 +38,11 @@ const Create = () => {
       data.set("file", postDetail.file);
 
       const response = await PostService.createPost(data);
+      console.log(response);
+
       if (response.status === 200) {
         Swal.fire({
-          title: "User Login",
+          title: "Post Created Successfully",
           text: response.data.message,
           icon: "success",
         }).then(() => {
@@ -55,12 +57,13 @@ const Create = () => {
       }
     } catch (error) {
       Swal.fire({
-        title: "Create Post",
+        title: "Create Post Failed",
         text: error?.response?.data?.message || error.message,
         icon: "error",
       });
     }
   };
+
   return (
     <div className="bg-white p-8 rounded-lg max-w-4xl w-full shadow-lg">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
@@ -93,7 +96,7 @@ const Create = () => {
             value={content}
             onChange={handleContentChange}
             ref={editorRef}
-          ></Editor>
+          />
         </div>
 
         <div className="mb-4">

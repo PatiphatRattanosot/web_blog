@@ -42,7 +42,7 @@ const PostDetail = () => {
         PostsServices.deletePost(id);
         Swal.fire({
           title: "Deleted!",
-          text: "Your file has been deleted.",
+          text: "Your post has been deleted.",
           icon: "success",
         });
         navigate("/");
@@ -51,59 +51,54 @@ const PostDetail = () => {
   };
 
   return (
-    <>
+    <div className="">
       {postDetail ? (
-        <div className="min-h-screen bg-gray-50 flex items-start justify-center py-12 px-4 sm:px-6 lg:px-8">
-          <div className="bg-white p-8 rounded-lg shadow-2xl max-w-4xl w-full">
-            <h1 className="text-4xl font-semibold text-gray-800 mb-6">
+        <div className="card w-full max-w-4xl bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h1 className="card-title text-4xl font-bold mb-6 text-gray-800">
               {postDetail.title}
             </h1>
-            <div className="flex justify-between text-gray-600 mb-4">
+            <div className="flex justify-between items-center text-sm text-gray-600 mb-6">
               <div>
-                <time className="block mb-2">
+                <time className="block">
                   {format(new Date(postDetail.createdAt), "dd MMMM yyyy HH:mm")}
                 </time>
-                <span className="text-gray-500">
+                <span>
                   By{" "}
-                  <span className="text-blue-500">
+                  <span className="text-primary font-semibold">
                     @{postDetail.author.username}
                   </span>
                 </span>
               </div>
-              {user.id === postDetail.author._id && (
+              {user?.id === postDetail.author._id && (
                 <div className="flex space-x-4">
                   <a
                     href={`/edit/${id}`}
-                    className="btn btn-warning px-4 py-2 rounded-md text-white bg-yellow-500 hover:bg-yellow-400 transition duration-200"
+                    className="btn btn-warning text-white"
                   >
                     Edit Post
                   </a>
-                  <a
-                    onClick={() => {
-                      handleDelete(postDetail?._id);
-                    }}
-                    className="btn btn-error px-4 py-2 rounded-md text-white bg-red-500 hover:bg-red-400 transition duration-200"
+                  <button
+                    onClick={() => handleDelete(postDetail._id)}
+                    className="btn btn-error text-white"
                   >
                     Delete
-                  </a>
+                  </button>
                 </div>
               )}
             </div>
             <div
-              className="content text-gray-700 leading-relaxed space-y-4"
+              className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl text-gray-700"
               dangerouslySetInnerHTML={{ __html: postDetail.content }}
             ></div>
           </div>
         </div>
       ) : (
-        <div className="min-h-screen flex items-center justify-center">
-          <div
-            role="alert"
-            className="alert alert-error max-w-xl p-4 bg-red-100 border border-red-300 rounded-lg shadow-md flex items-center space-x-4"
-          >
+        <div className="alert alert-error shadow-lg max-w-xl">
+          <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 shrink-0 stroke-current text-red-600"
+              className="stroke-current flex-shrink-0 h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
             >
@@ -114,11 +109,11 @@ const PostDetail = () => {
                 d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <span className="text-red-800">{err || "Post not found"}</span>
+            <span>{err || "Post not found"}</span>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

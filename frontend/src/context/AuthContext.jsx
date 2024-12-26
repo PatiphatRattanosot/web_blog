@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+
 import { useState, useContext, createContext, useEffect } from "react";
 import AuthService from "../services/auth.service";
 import { Cookies } from "react-cookie";

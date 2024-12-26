@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/", [authJwt.verifyToken, upload], PostController.createPost);
 router.get("/", PostController.getAllPosts);
 router.get("/:id", PostController.getPostById);
-router.put("/:id", PostController.updatePost);
-router.delete("/:id", PostController.deletePost);
+router.put("/:id", [authJwt.verifyToken, upload], PostController.updatePost);
+router.delete("/:id", [authJwt.verifyToken], PostController.deletePost);
 
 module.exports = router;

@@ -2,7 +2,6 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { forwardRef, useRef, useImperativeHandle } from "react";
 
-// eslint-disable-next-line react/prop-types
 const Editor = forwardRef(({ value, onChange }, ref) => {
   const quillRef = useRef(null);
   useImperativeHandle(ref, () => ({
@@ -30,6 +29,7 @@ const Editor = forwardRef(({ value, onChange }, ref) => {
   return (
     <div className="content h-full max-h-screen overflow-y-auto">
       <ReactQuill
+        ref={quillRef}
         theme="snow"
         value={value}
         onChange={onChange}

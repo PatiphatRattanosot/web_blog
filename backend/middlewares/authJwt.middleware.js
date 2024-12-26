@@ -3,6 +3,7 @@ require("dotenv").config();
 const secret = process.env.JWT_SECRET;
 verifyToken = (req, res, next) => {
   const token = req.headers["x-access-token"];
+
   if (!token) {
     return res.status(401).json({ message: "Token is missing" });
   }

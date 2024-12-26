@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import PostsServices from "../services/posts.service";
 import Post from "../components/Post";
+
 function Home() {
   const [posts, setPosts] = useState([]);
 
@@ -15,18 +16,15 @@ function Home() {
   }, []);
 
   return (
-    <>
+    <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col space-y-6">
-        <div className="justify-center items-center">
-          <div className="">
-            {posts.length > 0 &&
-              posts.map((post, index) => {
-                return <Post key={index} {...post} />;
-              })}
-          </div>
-        </div>
+        {posts.length > 0 ? (
+          posts.map((post, index) => <Post key={index} {...post} />)
+        ) : (
+          <p className="text-center text-gray-500">No posts available.</p>
+        )}
       </div>
-    </>
+    </div>
   );
 }
 

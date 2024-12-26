@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,12 @@ function Login() {
   });
   const navigate = useNavigate();
   const { login, user: userLogger } = useAuthContext();
+  useEffect(() => {
+    if (userLogger) {
+      navigate("/");
+    }
+  }, [userLogger]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,7 +32,7 @@ function Login() {
           text: response.data.message,
           icon: "success",
         });
-        login(userLogger);
+        login(response.data);
         setUser({ username: "", password: "" });
         navigate("/");
       }
@@ -40,57 +46,57 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200">
-      <div className="card w-full max-w-md bg-white shadow-lg rounded-lg p-8">
-        <h2 className="text-center text-3xl font-bold mb-6">Sign In</h2>
+    <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8">
+      <h2 className="text-center text-3xl font-bold text-primary mb-6">Sign In</h2>
 
-        <label>
-          <div className="form-control mb-4">
-            <label className="label">
-              <span className="label-text">Username</span>
-            </label>
-            <input
-              type="text"
-              placeholder="Enter your username"
-              name="username"
-              value={user.username}
-              className="input input-bordered rounded-lg"
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-control mb-4">
-            <label className="label">
-              <span className="label-text">Password</span>
-            </label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              name="password"
-              value={user.password}
-              className="input input-bordered rounded-lg"
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            className="btn btn-primary w-full mt-4 rounded-lg shadow-md"
-          >
-            Login
-          </button>
+      {/* Username input */}
+      <div className="form-control mb-4">
+        <label className="label">
+          <span className="label-text">Username</span>
         </label>
-
-        <p className="mt-4 text-center">
-          Don't have an account?
-          <a href="/sign-up" className="font-bold text-primary">
-            Sign Up
-          </a>
-        </p>
+        <input
+          type="text"
+          placeholder="Enter your username"
+          name="username"
+          value={user.username}
+          className="input input-bordered rounded-lg"
+          onChange={handleChange}
+          required
+        />
       </div>
+
+      {/* Password input */}
+      <div className="form-control mb-4">
+        <label className="label">
+          <span className="label-text">Password</span>
+        </label>
+        <input
+          type="password"
+          placeholder="Enter your password"
+          name="password"
+          value={user.password}
+          className="input input-bordered rounded-lg"
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      {/* Login Button */}
+      <button
+        type="button"
+        onClick={handleSubmit}
+        className="btn btn-primary w-full mt-4 rounded-lg shadow-md"
+      >
+        Login
+      </button>
+
+      {/* Signup Link */}
+      <p className="mt-4 text-center text-gray-600">
+        Don't have an account?{" "}
+        <a href="/sign-up" className="font-bold text-primary">
+          Sign Up
+        </a>
+      </p>
     </div>
   );
 }

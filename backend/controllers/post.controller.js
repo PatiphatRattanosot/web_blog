@@ -56,6 +56,8 @@ exports.getPostById = async (req, res) => {
 exports.updatePost = async (req, res) => {
   const { id } = req.params;
   const authorId = req.userId;
+  console.log(id, authorId);
+
   if (!id) return res.status(404).json({ message: "Post id is not Provided" });
   try {
     const updatePost = await Post.findById(id);

@@ -38,7 +38,6 @@ const Create = () => {
       data.set("file", postDetail.file);
 
       const response = await PostService.createPost(data);
-      console.log(response);
 
       if (response.status === 200) {
         Swal.fire({

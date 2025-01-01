@@ -1,7 +1,47 @@
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
+import Swal from "sweetalert2";
 
 function Navbar() {
   const { user, logout } = useAuthContext();
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You will be logged out from your account.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, log out",
+        cancelButtonText: "Cancel",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          logout()
+
+          Swal.fire({
+            title: "Logged Out",
+            text: "You have been successfully logged out.",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+
+
+          navigate("/");
+        }
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong during logout.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+  };
 
   return (
     <div className="navbar bg-base-100 shadow-md px-5">
@@ -11,11 +51,13 @@ function Navbar() {
         </a>
       </div>
 
-      <div className="navbar-center hidden md:flex">
-        <a href="/create" className="btn btn-primary normal-case">
-          Create Post
-        </a>
-      </div>
+      {user && (
+        <div className="navbar-center hidden md:flex">
+          <a href="/create" className="btn btn-primary normal-case">
+            Create Post
+          </a>
+        </div>
+      )}
 
       <div className="navbar-end">
         {user ? (
@@ -28,7 +70,7 @@ function Navbar() {
             </p>
             <button
               className="btn btn-error text-white"
-              onClick={logout}
+              onClick={handleLogout}
             >
               Logout
             </button>

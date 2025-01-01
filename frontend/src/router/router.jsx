@@ -6,7 +6,8 @@ import Login from "../pages/Login";
 import PostDetail from "../pages/PostDetail";
 import Register from "../pages/Register";
 import Layout from "../components/Layout";
-
+import NotAllow from "../pages/NotAllow";
+import OwnerOnly from "../components/OwnerOnly";
 
 const router = createBrowserRouter([
     {
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
                 element: <Home></Home>
             }, {
                 path: '/edit/:id',
-                element: <Edit></Edit>
+                element: <OwnerOnly><Edit></Edit></OwnerOnly>
             }, {
                 path: '/create',
                 element: <Create></Create>
@@ -31,6 +32,9 @@ const router = createBrowserRouter([
             }, {
                 path: '/sign-up',
                 element: <Register></Register>
+            }, {
+                path: "/notallow",
+                element: <NotAllow></NotAllow>
             }
         ]
     }

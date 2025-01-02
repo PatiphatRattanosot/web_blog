@@ -1,5 +1,5 @@
 const Post = require("../models/post.model");
-const fs = require('fs');
+const fs = require("fs");
 
 exports.createPost = async (req, res) => {
   try {
@@ -7,7 +7,7 @@ exports.createPost = async (req, res) => {
 
     //File upload
     const { path } = req.file;
-    const author = req.userId;
+    const authorId = req.userId;
     if (!title || !summary || !content) {
       return res.status(400).json({ message: "All Fields is require" });
     }
@@ -21,6 +21,8 @@ exports.createPost = async (req, res) => {
     if (!newPost) {
       res.status(404).json({ message: "cannot create post" });
     }
+    if (authorId !== newPost.author.toString())
+      return res.status(403).json({ message: "You can not delete this post!" });
     res.status(200).json(newPost);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -52,11 +54,9 @@ exports.getPostById = async (req, res) => {
   }
 };
 
-
 exports.updatePost = async (req, res) => {
   const { id } = req.params;
   const authorId = req.userId;
-  console.log(id, authorId);
 
   if (!id) return res.status(404).json({ message: "Post id is not Provided" });
   try {
@@ -94,9 +94,6 @@ exports.updatePost = async (req, res) => {
   }
 };
 
-
-
-
 exports.deletePost = async (req, res) => {
   const { id } = req.params;
   const authorId = req.userId;
@@ -114,9 +111,7 @@ exports.deletePost = async (req, res) => {
       }
       res.status(200).json(deletedPost);
     });
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-

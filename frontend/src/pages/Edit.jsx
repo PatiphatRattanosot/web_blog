@@ -17,19 +17,22 @@ const Edit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  console.log(postDetail);
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
         const response = await PostService.getPostById(id);
+
         if (response.status === 200) {
           setPostDetail(response.data);
-          setContent(content);
+          setContent(response.data.content);
         }
       } catch (error) {
         Swal.fire({
-          title: "Error",
-          text: error?.response?.data?.message || "Failed to load post details.",
+          title: "Update Post",
+          text:
+            error?.response?.data?.message || "Failed to load post details.",
           icon: "error",
         });
       }
@@ -48,7 +51,6 @@ const Edit = () => {
 
   const handleContentChange = (value) => {
     setContent(value);
-    setPostDetail({ ...postDetail, content: value });
   };
 
   const handleSubmit = async () => {
@@ -56,12 +58,8 @@ const Edit = () => {
       const data = new FormData();
       data.set("title", postDetail.title);
       data.set("summary", postDetail.summary);
-      data.set("content", postDetail.content);
-      if (postDetail.file) data.set("file", postDetail.file);
-
-      // for (const [key, value] of data.entries()) {
-      //   console.log(`${key}:`, value);
-      // }
+      data.set("content", content);
+      data.set("file", postDetail.file);
 
       const response = await PostService.updatePost(id, data);
 
@@ -75,6 +73,8 @@ const Edit = () => {
         });
       }
     } catch (error) {
+      console.log(error?.response);
+
       Swal.fire({
         title: "Update Failed",
         text: error?.response?.data?.message || error.message,
@@ -82,7 +82,6 @@ const Edit = () => {
       });
     }
   };
-
 
   return (
     <div className="bg-white p-8 rounded-lg max-w-4xl w-full shadow-lg">

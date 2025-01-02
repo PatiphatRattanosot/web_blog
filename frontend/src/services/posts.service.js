@@ -2,7 +2,10 @@ import api from "./api";
 const api_url = import.meta.env.VITE_POSTS_URL;
 
 const createPost = async (post) => {
-  console.log(post);
+  console.log("Create :" + post);
+  for (const [key, value] of post.entries()) {
+    console.log(`${key}:`, value);
+  }
 
   const response = await api.post(`${api_url}/`, post, {
     headers: {
@@ -17,16 +20,21 @@ const getAllPosts = async () => await api.get(`${api_url}/`);
 const getPostById = async (id) => await api.get(`${api_url}/${id}`);
 
 const updatePost = async (id, post) => {
-  // console.log("FormData being sent:" + post);
+  // console.log("Update :" + post);
   // for (const [key, value] of post.entries()) {
   //   console.log(`${key}:`, value);
   // }
+  console.log(`${api_url}/${id}`);
 
-  const response = await api.post(`${api_url}/${id}`, post, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const response = await api.put(
+    `http://localhost:3001${api_url}/${id}`,
+    post,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
   return response;
 };
 

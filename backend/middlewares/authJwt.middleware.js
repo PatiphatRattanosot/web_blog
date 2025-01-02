@@ -10,11 +10,10 @@ verifyToken = (req, res, next) => {
   }
   jwt.verify(token, secret, (err, decode) => {
     if (err) {
-      console.log(err); return res.status(403).json({ message: "Access Forbidden!!" });
+      return res.status(403).json({ message: "Access Forbidden!!" });
     }
     req.userId = decode.id;
     req.username = decode.username;
-
 
     next();
   });

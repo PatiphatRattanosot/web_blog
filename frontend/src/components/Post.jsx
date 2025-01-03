@@ -1,7 +1,6 @@
 import React from "react";
 import { format } from "date-fns";
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function Post({ title, author, summary, cover, createdAt, _id }) {
   return (
@@ -9,7 +8,7 @@ function Post({ title, author, summary, cover, createdAt, _id }) {
       <figure className="w-1/3">
         <a href={`/post/${_id}`} className="block">
           <img
-            src={`${baseUrl}/${cover}`}
+            src={`${cover}`}
             alt={title}
             className="object-cover w-full h-full"
           />
@@ -20,7 +19,7 @@ function Post({ title, author, summary, cover, createdAt, _id }) {
           <h2 className="card-title">{title}</h2>
         </a>
         <p className="text-sm text-gray-500">
-          {author.username} — {format(new Date(createdAt), "dd MMMM yyyy HH:mm")}
+          <a href={`/author/${author._id}`}>{author.username}</a> — {format(new Date(createdAt), "dd MMMM yyyy HH:mm")}
         </p>
         <p className="mt-2">{summary}</p>
         <div className="card-actions justify-end">

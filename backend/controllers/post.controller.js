@@ -2,12 +2,14 @@ const Post = require("../models/post.model");
 const fs = require("fs");
 
 exports.createPost = async (req, res) => {
-  try {
-    const { title, summary, content } = req.body;
+  const { title, summary, content } = req.body;
 
-    //File upload
-    const { path } = req.file;
-    const authorId = req.userId;
+  //File upload
+  const authorId = req.userId;
+
+  if (!req.file) return res.status(400).json({ message: "Image is required" });
+
+  try {
     if (!title || !summary || !content) {
       return res.status(400).json({ message: "All Fields is require" });
     }
@@ -15,8 +17,8 @@ exports.createPost = async (req, res) => {
       title,
       summary,
       content,
-      cover: path,
-      author,
+      cover: req.file.firebaseURL,
+      author: authorId,
     });
     if (!newPost) {
       res.status(404).json({ message: "cannot create post" });
@@ -77,14 +79,14 @@ exports.updatePost = async (req, res) => {
     updatePost.content = content;
     if (req.file) {
       // Delete Image File from folder
-      const imagePath = (__dirname, updatePost.cover);
-      fs.unlink(imagePath, (err) => {
-        if (err) {
-          return res.status(500).json({ message: "Failed to delete image." });
-        }
-      });
-      const { path } = req.file;
-      updatePost.cover = path;
+      // const imagePath = (__dirname, updatePost.cover);
+      // fs.unlink(imagePath, (err) => {
+      //   if (err) {
+      //     return res.status(500).json({ message: "Failed to delete image." });
+      //   }
+      // });
+
+      updatePost.cover = req.file.firebaseURL;
     }
     await updatePost.save();
 
@@ -101,17 +103,32 @@ exports.deletePost = async (req, res) => {
     const deletedPost = await Post.findById(id);
     if (authorId !== deletedPost.author.toString())
       return res.status(403).json({ message: "You can not delete this post!" });
-    const imagePath = (__dirname, deletedPost.cover);
+    // const imagePath = (__dirname, deletedPost.cover);
     await deletedPost.deleteOne();
     // Delete Image File from folder
-    fs.unlink(imagePath, (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ message: "Failed to delete image." });
-      }
-      res.status(200).json(deletedPost);
-    });
+    // fs.unlink(imagePath, (err) => {
+    //   if (err) {
+    //     console.error(err);
+    //     return res.status(500).json({ message: "Failed to delete image." });
+    //   }
+    //   res.status(200).json(deletedPost);
+    // });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.getPostsByUserId = async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const posts = await Post.find({ author: id })
+      .populate("author", "username")
+      .sort({ createdAt: -1 })
+      .limit(20);
+    if (!posts) return res.status(404).json({ message: "Post not found" });
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}

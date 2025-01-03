@@ -66,7 +66,7 @@ const PostDetail = () => {
                 <span>
                   By{" "}
                   <span className="text-primary font-semibold">
-                    @{postDetail.author.username}
+                    @<a href={`/author/${postDetail.author._id}`}>{postDetail.author.username}</a>
                   </span>
                 </span>
               </div>

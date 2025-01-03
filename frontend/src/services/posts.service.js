@@ -19,12 +19,13 @@ const getAllPosts = async () => await api.get(`${api_url}/`);
 
 const getPostById = async (id) => await api.get(`${api_url}/${id}`);
 
+const getPostByUser = async (id) => await api.get(`${api_url}/author/${id}`);
+
 const updatePost = async (id, post) => {
   // console.log("Update :" + post);
   // for (const [key, value] of post.entries()) {
   //   console.log(`${key}:`, value);
   // }
-  console.log(`${api_url}/${id}`);
 
   const response = await api.put(
     `http://localhost:3001${api_url}/${id}`,
@@ -46,6 +47,7 @@ const PostsServices = {
   getPostById,
   updatePost,
   deletePost,
+  getPostByUser
 };
 
 export default PostsServices;

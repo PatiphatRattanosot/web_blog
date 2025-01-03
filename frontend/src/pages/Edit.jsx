@@ -16,9 +16,6 @@ const Edit = () => {
 
   const navigate = useNavigate();
   const { id } = useParams();
-
-  console.log(postDetail);
-
   useEffect(() => {
     const fetchPost = async () => {
       try {

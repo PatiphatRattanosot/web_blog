@@ -1,11 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
 
 function Navbar() {
   const { user, logout } = useAuthContext();
   const navigate = useNavigate()
-
   const handleLogout = () => {
     try {
       Swal.fire({
@@ -43,6 +42,7 @@ function Navbar() {
     }
   };
 
+
   return (
     <div className="navbar bg-base-100 shadow-md px-5">
       <div className="flex-1">
@@ -52,10 +52,11 @@ function Navbar() {
       </div>
 
       {user && (
-        <div className="navbar-center hidden md:flex">
+        <div className="navbar-center space-x-4 hidden md:flex">
           <a href="/create" className="btn btn-primary normal-case">
             Create Post
           </a>
+          <a href={`/author/${user.id}`} className="btn btn-primary normal-case" >Post</a>
         </div>
       )}
 

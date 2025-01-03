@@ -8,6 +8,7 @@ import Register from "../pages/Register";
 import Layout from "../components/Layout";
 import NotAllow from "../pages/NotAllow";
 import OwnerOnly from "../components/OwnerOnly";
+import UserPosts from "../pages/UserPosts";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +33,9 @@ const router = createBrowserRouter([
             }, {
                 path: '/sign-up',
                 element: <Register></Register>
+            }, {
+                path: "/author/:id",
+                element: <UserPosts></UserPosts>
             }, {
                 path: "/notallow",
                 element: <NotAllow></NotAllow>

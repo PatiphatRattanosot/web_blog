@@ -42,10 +42,10 @@ function checkFileType(file, cb) {
 ///upload to firebase
 async function uploadToFirebase(req, res, next) {
 
-  if (!req.file) next();
-  
+  if (!req.file) return next();
+
   const storageRef = ref(firebaseStorage, `uploads/${req?.file?.originalname}`)
-  
+
   const metadata = {
     contentType: req?.file?.mimetype
   }
